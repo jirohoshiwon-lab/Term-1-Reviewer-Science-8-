@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DepEd Grade 8 Science Reviewer & Genetics Lab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    input, select, button { font-size: 16px; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+
+  <!-- Header / Navigation -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5 cursor-pointer" onclick="goView('home')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white text-lg shadow-sm">🧬</div>
+        <div>
+          <span class="font-bold text-slate-900 text-base">Science 8</span>
+          <span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-emerald-200 ml-1.5">Reviewer</span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-1 sm:space-x-2">
+        <button id="nav-home" onclick="goView('home')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-emerald-700 bg-emerald-50">🏠 Home</button>
+        <button id="nav-mcq" onclick="goView('mcq')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:bg-slate-100">📝 MCQ (<span id="nav-pool-count">43</span>)</button>
+        <button id="nav-punnett" onclick="goView('punnett')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:bg-slate-100">🔬 Punnett Lab (<span id="nav-streak">0 🔥</span>)</button>
+        <button onclick="toggleSound()" id="sound-btn" class="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100" title="Sound Toggle">🔊</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
+
+    <!-- VIEW 1: HOME -->
+    <section id="v-home" class="space-y-6">
+      <div class="bg-gradient-to-br from-emerald-800 via-teal-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
+        <span class="bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 text-xs px-2.5 py-1 rounded-full font-semibold">✨ Grade 8 Science Reviewer</span>
+        <h1 class="text-2xl sm:text-4xl font-extrabold mt-3 leading-tight">Master Grade 8 Science & Genetics</h1>
+        <p class="text-slate-300 text-xs sm:text-sm mt-2 max-w-xl leading-relaxed">
+          Comprehensive reviewer covering 43 DepEd questions with spaced repetition and instant rationales, plus an interactive Carabao Genetics Sandbox!
+        </p>
+        <div class="flex flex-wrap gap-3 mt-5">
+          <button onclick="goView('mcq')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl transition text-sm flex items-center space-x-1.5 shadow-md">
+            <span>Start MCQ Reviewer</span><span>➔</span>
+          </button>
+          <button onclick="goView('punnett')" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-xl border border-white/20 transition text-sm">
+            <span>Launch Punnett Lab</span><span>🔬</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Topics Pills -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 text-center text-xs font-semibold text-slate-700">
+        <div class="bg-white p-3 rounded-xl border border-slate-200">🍖 Animal Digestion</div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200">🌿 Plant Transport</div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200">🐾 Taxonomy</div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200">🧬 Heredity</div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200">☀️ Photosynthesis</div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200">⚛️ Atomic Models</div>
+      </div>
+
+      <!-- Two Mode Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-white p-6 rounded-2xl border-2 border-slate-200 hover:border-emerald-500 transition shadow-sm space-y-3">
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 text-2xl flex items-center justify-center">📝</div>
+          <h2 class="text-xl font-bold text-slate-900">Multiple Choice Reviewer</h2>
+          <p class="text-xs sm:text-sm text-slate-600">43 questions with completely randomized answer placement. Instant rationales are provided for every choice. Wrong answers return to the pool until 100% mastered!</p>
+          <button onclick="goView('mcq')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition text-sm">Start Reviewer (43 Questions)</button>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border-2 border-slate-200 hover:border-teal-500 transition shadow-sm space-y-3">
+          <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-800 text-2xl flex items-center justify-center">🔬</div>
+          <h2 class="text-xl font-bold text-slate-900">Punnett Square Sandbox</h2>
+          <p class="text-xs sm:text-sm text-slate-600">Explore Carabao coat color in Tarlac (Dark dominant [D], Light recessive [d]). Build the 2x2 square from given parent genotypes, calculate ratios, and diagnose misconceptions!</p>
+          <button onclick="goView('punnett')" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition text-sm">Launch Punnett Sandbox</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: MCQ -->
+    <section id="v-mcq" class="hidden space-y-5">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+        <div class="flex flex-wrap items-center justify-between text-xs font-semibold gap-2">
+          <div class="flex items-center space-x-2">
+            <button onclick="goView('home')" class="text-slate-400 hover:text-slate-700">← Back</button>
+            <span class="text-slate-300">|</span>
+            <span id="mcq-topic" class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Topic</span>
+            <span id="mcq-lvl" class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded hidden sm:inline">Level</span>
+          </div>
+          <div class="flex items-center space-x-3 text-xs">
+            <span class="text-emerald-700 font-bold">Mastered: <span id="stat-mastered">0</span>/43</span>
+            <span class="text-blue-700 font-bold">In Pool: <span id="stat-pool">43</span></span>
+            <span class="text-slate-400">Attempts: <span id="stat-attempts">0</span></span>
+          </div>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+          <div id="mcq-bar" class="bg-emerald-500 h-2 rounded-full transition-all duration-300" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+        <div class="space-y-1">
+          <span id="mcq-num" class="text-xs font-bold text-slate-400 uppercase">Question #1</span>
+          <h2 id="mcq-q-text" class="text-base sm:text-lg font-bold text-slate-900 leading-snug">Question text</h2>
+        </div>
+
+        <div id="mcq-options" class="space-y-2.5"></div>
+
+        <div id="mcq-feedback" class="hidden p-4 sm:p-5 rounded-2xl border transition-all space-y-3">
+          <div class="flex items-center space-x-2">
+            <span id="mcq-fb-icon" class="text-2xl">🎉</span>
+            <span id="mcq-fb-title" class="font-bold text-sm sm:text-base">Correct!</span>
+          </div>
+          <div id="mcq-fb-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-white/70 p-3 rounded-xl border border-slate-200"></div>
+          <div class="flex justify-end pt-1">
+            <button onclick="nextQuestion()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm">
+              <span id="mcq-next-txt">Next Question</span> ➔
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2B: MCQ CLEARED -->
+    <section id="v-cleared" class="hidden text-center py-10 space-y-5">
+      <div class="w-20 h-20 mx-auto rounded-3xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-4xl shadow-lg">🏆</div>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Reviewer Cleared!</h2>
+      <p class="text-slate-600 text-sm max-w-md mx-auto">All 43 Grade 8 Science questions have been answered correctly and mastered!</p>
+      <div class="flex justify-center space-x-3 text-xs font-semibold">
+        <button onclick="goView('punnett')" class="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl">Try Punnett Lab 🔬</button>
+        <button onclick="restartMCQ()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2.5 rounded-xl border border-slate-300">Restart MCQ ↺</button>
+      </div>
+    </section>
+
+    <!-- VIEW 3: PUNNETT LAB -->
+    <section id="v-punnett" class="hidden space-y-6">
+      <!-- Fixed Philippine Context Banner -->
+      <div class="bg-gradient-to-r from-amber-900/90 to-slate-900 text-white p-5 sm:p-6 rounded-3xl shadow-lg space-y-2">
+        <div class="flex justify-between items-center text-xs text-amber-200 font-semibold">
+          <span>🐃 Philippine Carabao Genetics Sandbox</span>
+          <span>🔥 Streak: <strong id="plab-streak" class="text-white">0</strong> | Attempts: <strong id="plab-attempts" class="text-white">0</strong></span>
+        </div>
+        <p class="text-xs sm:text-sm text-amber-100 leading-relaxed">
+          "On a farm in Tarlac, a carabao's coat color is controlled by a single gene, where <strong>Dark (D)</strong> is dominant over <strong>Light (d)</strong>. Set up a cross between two carabaos and build the Punnett square to predict their offspring."
+        </p>
+      </div>
+
+      <!-- Given Problem Challenge Card -->
+      <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        <div class="space-y-1">
+          <div class="flex items-center space-x-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200 px-2 py-0.5 rounded">Given Cross Challenge</span>
+            <span class="text-xs text-slate-500 font-medium">Single gene inheritance (D vs d)</span>
+          </div>
+          <div class="text-sm sm:text-base font-bold text-slate-900">
+            Given Parents: <span id="given-parent1-text" class="text-teal-700 font-mono font-extrabold bg-teal-100 px-2 py-0.5 rounded">Parent 1: Dd (Dark)</span>
+            <span class="text-slate-400 font-normal mx-1">×</span>
+            <span id="given-parent2-text" class="text-teal-700 font-mono font-extrabold bg-teal-100 px-2 py-0.5 rounded">Parent 2: Dd (Dark)</span>
+          </div>
+          <p id="given-cross-desc" class="text-xs text-slate-600">
+            A Dark carabao (genotype <strong>Dd</strong>) is crossed with another Dark carabao (genotype <strong>Dd</strong>). Build the Punnett square below.
+          </p>
+        </div>
+        <button type="button" onclick="newCross()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-xs flex items-center space-x-1.5">
+          <span>🎲 Give Another Cross</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- Left: Steps 1 & 2 (Parents & 2x2 Grid) -->
+        <div class="lg:col-span-7 space-y-5">
+          
+          <!-- Step 1: Customize / Verify Parents -->
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-[11px] font-bold uppercase text-teal-600 bg-teal-50 px-2 py-0.5 rounded">Step 1: Given Parent Genotypes</span>
+              <span class="text-[11px] text-slate-400">Tap to test other combinations freely</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div>
+                <label class="font-semibold text-slate-600 block mb-1">Parent 1 Genotype (Top):</label>
+                <div class="grid grid-cols-3 gap-1">
+                  <button type="button" onclick="setParent(1,'DD')" id="p1-DD" class="p-1.5 border rounded-lg font-bold">DD<br><span class="text-[9px] font-normal">Dark</span></button>
+                  <button type="button" onclick="setParent(1,'Dd')" id="p1-Dd" class="p-1.5 border-2 border-teal-600 bg-teal-50 text-teal-900 rounded-lg font-bold">Dd<br><span class="text-[9px] font-normal">Dark</span></button>
+                  <button type="button" onclick="setParent(1,'dd')" id="p1-dd" class="p-1.5 border rounded-lg font-bold">dd<br><span class="text-[9px] font-normal">Light</span></button>
+                </div>
+              </div>
+              <div>
+                <label class="font-semibold text-slate-600 block mb-1">Parent 2 Genotype (Left):</label>
+                <div class="grid grid-cols-3 gap-1">
+                  <button type="button" onclick="setParent(2,'DD')" id="p2-DD" class="p-1.5 border rounded-lg font-bold">DD<br><span class="text-[9px] font-normal">Dark</span></button>
+                  <button type="button" onclick="setParent(2,'Dd')" id="p2-Dd" class="p-1.5 border-2 border-teal-600 bg-teal-50 text-teal-900 rounded-lg font-bold">Dd<br><span class="text-[9px] font-normal">Dark</span></button>
+                  <button type="button" onclick="setParent(2,'dd')" id="p2-dd" class="p-1.5 border rounded-lg font-bold">dd<br><span class="text-[9px] font-normal">Light</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: 2x2 Punnett Square with Given Genotypes Embedded -->
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-[11px] font-bold uppercase text-teal-600 bg-teal-50 px-2 py-0.5 rounded">Step 2: Build the Punnett Square</span>
+              <div class="flex space-x-1.5 text-xs">
+                <button type="button" onclick="tapAllele('D')" class="bg-emerald-600 text-white px-2.5 py-1 rounded font-bold shadow-xs">+ D</button>
+                <button type="button" onclick="tapAllele('d')" class="bg-amber-600 text-white px-2.5 py-1 rounded font-bold shadow-xs">+ d</button>
+                <button type="button" onclick="tapClear()" class="text-slate-400 hover:text-slate-700 px-1 py-1">Clear</button>
+              </div>
+            </div>
+
+            <!-- The Grid Display with Given Parent Genotypes directly visible -->
+            <div class="flex flex-col items-center overflow-x-auto py-2">
+              
+              <!-- Parent 1 (Given) Header above top gametes -->
+              <div class="mb-2 text-center bg-teal-50 border border-teal-200 px-3.5 py-1.5 rounded-xl shadow-xs">
+                <span class="text-[10px] sm:text-xs font-semibold text-teal-800 uppercase tracking-wide">Parent 1 Genotype (Given):</span>
+                <span id="grid-p1-tag" class="font-mono font-extrabold text-sm text-teal-950 ml-1.5 bg-white px-2 py-0.5 rounded border border-teal-300">Dd (Dark)</span>
+                <span class="text-teal-600 font-bold ml-1">↓</span>
+              </div>
+
+              <!-- 2x2 Punnett Grid -->
+              <div class="inline-grid grid-cols-3 gap-2 sm:gap-2.5 bg-slate-100 p-3 sm:p-4 rounded-2xl border border-slate-200">
+                
+                <!-- Corner box showing Given Cross -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-slate-200/90 rounded-xl flex flex-col items-center justify-center p-1 text-center border border-slate-300">
+                  <span class="text-[9px] font-bold text-slate-500 uppercase">Given Cross</span>
+                  <span id="grid-corner-cross" class="text-xs sm:text-sm font-mono font-extrabold text-slate-800 mt-0.5">Dd × Dd</span>
+                </div>
+
+                <!-- Top Gamete 1 (Parent 1) -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-teal-50 border-2 border-teal-300 rounded-xl p-1 flex flex-col items-center justify-center">
+                  <span class="text-[9px] text-teal-700 font-bold uppercase">Gamete 1</span>
+                  <input id="gt1" maxlength="2" placeholder="?" onfocus="curCell=this" oninput="cellEdit('gt1')" 
+                    class="w-full text-center font-mono font-bold text-lg bg-white border border-teal-400 rounded-lg text-teal-950 focus:outline-hidden focus:ring-2 focus:ring-teal-500" autocomplete="off" autocapitalize="none">
+                </div>
+
+                <!-- Top Gamete 2 (Parent 1) -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-teal-50 border-2 border-teal-300 rounded-xl p-1 flex flex-col items-center justify-center">
+                  <span class="text-[9px] text-teal-700 font-bold uppercase">Gamete 2</span>
+                  <input id="gt2" maxlength="2" placeholder="?" onfocus="curCell=this" oninput="cellEdit('gt2')" 
+                    class="w-full text-center font-mono font-bold text-lg bg-white border border-teal-400 rounded-lg text-teal-950 focus:outline-hidden focus:ring-2 focus:ring-teal-500" autocomplete="off" autocapitalize="none">
+                </div>
+
+                <!-- Left Gamete 1 (Parent 2) -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-teal-50 border-2 border-teal-300 rounded-xl p-1 flex flex-col items-center justify-center">
+                  <span class="text-[9px] text-teal-700 font-bold uppercase">Left Gamete 1</span>
+                  <input id="gl1" maxlength="2" placeholder="?" onfocus="curCell=this" oninput="cellEdit('gl1')" 
+                    class="w-full text-center font-mono font-bold text-lg bg-white border border-teal-400 rounded-lg text-teal-950 focus:outline-hidden focus:ring-2 focus:ring-teal-500" autocomplete="off" autocapitalize="none">
+                </div>
+
+                <!-- Offspring Cell (0,0) -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-white border-2 border-slate-300 rounded-xl p-1 flex flex-col items-center justify-center focus-within:border-teal-500 shadow-xs">
+                  <span class="text-[8px] text-slate-400">Offspring 1</span>
+                  <input id="c00" maxlength="3" placeholder="?" onfocus="curCell=this" 
+                    class="w-full text-center font-mono font-bold text-lg text-slate-900 focus:outline-hidden" autocomplete="off" autocapitalize="none">
+                </div>
+
+                <!-- Offspring Cell (0,1) -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-white border-2 border-slate-300 rounded-xl p-1 flex flex-col items-center justify-center focus-within:border-teal-500 shadow-xs">
+                  <span class="text-[8px] text-slate-400">Offspring 2</span>
+                  <input id="c01" maxlength="3" placeholder="?" onfocus="curCell=this" 
+                    class="w-full text-center font-mono font-bold text-lg text-slate-900 focus:outline-hidden" autocomplete="off" autocapitalize="none">
+                </div>
+
+                <!-- Left Gamete 2 (Parent 2) -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-teal-50 border-2 border-teal-300 rounded-xl p-1 flex flex-col items-center justify-center">
+                  <span class="text-[9px] text-teal-700 font-bold uppercase">Left Gamete 2</span>
+                  <input id="gl2" maxlength="2" placeholder="?" onfocus="curCell=this" oninput="cellEdit('gl2')" 
+                    class="w-full text-center font-mono font-bold text-lg bg-white border border-teal-400 rounded-lg text-teal-950 focus:outline-hidden focus:ring-2 focus:ring-teal-500" autocomplete="off" autocapitalize="none">
+                </div>
+
+                <!-- Offspring Cell (1,0) -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-white border-2 border-slate-300 rounded-xl p-1 flex flex-col items-center justify-center focus-within:border-teal-500 shadow-xs">
+                  <span class="text-[8px] text-slate-400">Offspring 3</span>
+                  <input id="c10" maxlength="3" placeholder="?" onfocus="curCell=this" 
+                    class="w-full text-center font-mono font-bold text-lg text-slate-900 focus:outline-hidden" autocomplete="off" autocapitalize="none">
+                </div>
+
+                <!-- Offspring Cell (1,1) -->
+                <div class="w-18 h-16 sm:w-22 sm:h-18 bg-white border-2 border-slate-300 rounded-xl p-1 flex flex-col items-center justify-center focus-within:border-teal-500 shadow-xs">
+                  <span class="text-[8px] text-slate-400">Offspring 4</span>
+                  <input id="c11" maxlength="3" placeholder="?" onfocus="curCell=this" 
+                    class="w-full text-center font-mono font-bold text-lg text-slate-900 focus:outline-hidden" autocomplete="off" autocapitalize="none">
+                </div>
+              </div>
+
+              <!-- Parent 2 (Given) Badge below grid -->
+              <div class="mt-2 text-center bg-teal-50 border border-teal-200 px-3.5 py-1.5 rounded-xl shadow-xs">
+                <span class="text-[10px] sm:text-xs font-semibold text-teal-800 uppercase tracking-wide">Parent 2 Genotype (Given):</span>
+                <span id="grid-p2-tag" class="font-mono font-extrabold text-sm text-teal-950 ml-1.5 bg-white px-2 py-0.5 rounded border border-teal-300">Dd (Dark)</span>
+                <span class="text-teal-600 font-bold ml-1">→</span>
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400 text-center">Separate the given parent alleles into Gametes 1 & 2, then combine them in the offspring cells.</p>
+          </div>
+        </div>
+
+        <!-- Right: Step 3 (Interpret) & Buttons -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3 text-xs">
+            <span class="text-[11px] font-bold uppercase text-teal-600 bg-teal-50 px-2 py-0.5 rounded">Step 3: Interpret</span>
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">1. Genotypic Ratio:</label>
+              <input id="in-geno" placeholder="e.g. 1:2:1 or 1 DD : 2 Dd : 1 dd" class="w-full p-2.5 border rounded-xl" autocomplete="off" autocapitalize="none">
+              <span class="text-[10px] text-slate-400">Compares DD, Dd, and dd counts</span>
+            </div>
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">2. Phenotypic Ratio:</label>
+              <input id="in-pheno" placeholder="e.g. 3:1 or 3 Dark : 1 Light" class="w-full p-2.5 border rounded-xl" autocomplete="off" autocapitalize="none">
+              <span class="text-[10px] text-slate-400">Compares Dark coat vs. Light coat counts</span>
+            </div>
+            <div>
+              <label class="font-bold text-slate-700 block mb-1">3. Probability:</label>
+              <input id="in-prob" placeholder="e.g. 75% / 25% or 3 in 4 / 1 in 4" class="w-full p-2.5 border rounded-xl" autocomplete="off" autocapitalize="none">
+              <span class="text-[10px] text-slate-400">Likelihood of each coat color</span>
+            </div>
+            <button type="button" onclick="checkPunnett()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">✓ Check Answer</button>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" onclick="resetPunnettGrid()" class="py-2 border bg-slate-50 hover:bg-slate-100 rounded-xl font-semibold text-slate-600">↺ Reset</button>
+              <button type="button" onclick="newCross()" class="py-2 border bg-teal-50 hover:bg-teal-100 text-teal-800 rounded-xl font-semibold">✨ New Cross</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback Panel -->
+      <div id="p-feedback" class="hidden bg-white p-5 sm:p-6 rounded-3xl border-2 border-slate-200 shadow-md space-y-4 text-xs sm:text-sm">
+        <div class="flex justify-between items-center border-b pb-3">
+          <div class="flex items-center space-x-2 font-bold text-base text-slate-900">
+            <span id="p-badge-icon">🎯</span>
+            <span id="p-badge-title">Results Breakdown</span>
+          </div>
+          <span id="p-score-pill" class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100">0/5</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs font-semibold">
+          <div id="badge-g" class="p-2 border rounded-xl">Gametes<br><span id="st-g">-</span></div>
+          <div id="badge-c" class="p-2 border rounded-xl">Offspring<br><span id="st-c">-</span></div>
+          <div id="badge-gn" class="p-2 border rounded-xl">Genotype<br><span id="st-gn">-</span></div>
+          <div id="badge-ph" class="p-2 border rounded-xl">Phenotype<br><span id="st-ph">-</span></div>
+          <div id="badge-pr" class="p-2 border rounded-xl">Probability<br><span id="st-pr">-</span></div>
+        </div>
+
+        <div id="p-details" class="space-y-2"></div>
+
+        <div class="bg-emerald-50/70 p-3.5 rounded-xl border border-emerald-200 text-xs text-emerald-950 space-y-1">
+          <span class="font-bold block">📖 Model Reference Solution:</span>
+          <div>Parents: <strong id="ref-parents">Dd × Dd</strong></div>
+          <div>Expected Genotypes: <strong id="ref-geno">1 DD : 2 Dd : 1 dd (1:2:1)</strong></div>
+          <div>Expected Phenotypes: <strong id="ref-pheno">3 Dark : 1 Light (3:1)</strong></div>
+          <div>Expected Probability: <strong id="ref-prob">75% Dark, 25% Light</strong></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
+    DepEd Grade 8 Science Interactive Reviewer • Tarlac Farm Carabao Genetics
+  </footer>
+
+  <script>
+    const QS = [{"id":1,"top":"Heredity","lvl":"Level 1","q":"During a science activity, students examine a diagram of a DNA molecule. The teacher explains that a specific section of DNA carries information for a particular characteristic. What is this section called?","opts":["An allele","A gene","A chromosome","A nucleotide"],"ans":1,"exp":"A gene is a functional unit and specific physical segment of DNA that encodes instructions for synthesizing a protein or controlling a trait. Rule: A gene is the basic physical and functional unit of heredity located on DNA."},{"id":2,"top":"Digestion in Animals","lvl":"Level 1","q":"A student drinks water and eats a sandwich. Which organ first receives the food and begins mechanical digestion?","opts":["Stomach","Esophagus","Mouth","Small intestine"],"ans":2,"exp":"Mechanical digestion begins in the mouth (oral cavity) through chewing (mastication) by the teeth, breaking food into smaller pieces. Rule: Digestion starts mechanically in the mouth through chewing and chemically through salivary amylase."},{"id":3,"top":"Digestion in Animals","lvl":"Level 1","q":"While chewing a cracker, saliva mixes with the broken food particles. What is the resulting mass called when it is ready to be swallowed?","opts":["Bolus","Chyme","Nutrient","Waste"],"ans":0,"exp":"A bolus is the soft, lubricated, flexible ball of chewed food mixed with saliva shaped by the tongue for swallowing. Rule: Chewed food + saliva = bolus (mouth); bolus + gastric juice = chyme (stomach)."},{"id":4,"top":"Plants Transport System","lvl":"Level 1","q":"A plant absorbs water from the soil. Which structure carries most of this water upward through the plant?","opts":["Phloem","Stomata","Xylem","Root hairs"],"ans":2,"exp":"Xylem consists of specialized tubular vessels and tracheids that carry water and dissolved minerals upward from roots to stems and leaves. Rule: Xylem carries water and minerals UP (unidirectional); Phloem carries sugars up and down (bidirectional)."},{"id":5,"top":"Photosynthesis and Respiration","lvl":"Level 1","q":"A student observes that a plant's leaves contain green pigments that capture light. What is the primary role of these pigments?","opts":["To absorb minerals","To capture light energy","To transport water","To release glucose"],"ans":1,"exp":"Chlorophyll pigments in chloroplast thylakoids absorb solar photon energy to power the light-dependent reactions of photosynthesis. Rule: Chlorophyll pigments absorb light energy (primarily blue and red wavelengths) to drive photosynthesis."},{"id":6,"top":"Photosynthesis and Respiration","lvl":"Level 1","q":"Which cellular process releases usable energy from glucose?","opts":["Transpiration","Photosynthesis","Digestion","Cellular respiration"],"ans":3,"exp":"Cellular respiration is the biochemical breakdown of glucose (in the presence of oxygen) to release usable ATP energy. Rule: Cellular respiration (C6H12O6 + 6O2 -> 6CO2 + 6H2O + ATP) converts glucose into usable cellular energy."},{"id":7,"top":"Taxonomic Classification","lvl":"Level 1","q":"A scientist groups organisms into Bacteria, Archaea, and Eukarya. What is the name of this classification system?","opts":["Three-domain system","Six-kingdom system","Binomial system","Taxonomic hierarchy"],"ans":0,"exp":"The Three-Domain System (proposed by Carl Woese) classifies all life into three broad domains: Archaea, Bacteria, and Eukarya based on ribosomal RNA comparisons. Rule: Domain is the highest rank; the Three Domains are Archaea, Bacteria, and Eukarya."},{"id":8,"top":"Atomic Models","lvl":"Level 1","q":"In the traditional atomic model proposed by Dalton, atoms were represented as solid spheres. What did this model suggest about atoms?","opts":["They contain a central nucleus.","They have electrons in energy levels.","They are indivisible particles.","They contain regions of electron probability."],"ans":2,"exp":"John Dalton's 1803 'billiard ball' model posited that atoms are solid, indestructible, and indivisible building blocks of matter. Rule: Dalton viewed the atom as an indivisible, solid sphere without any internal subatomic parts."},{"id":9,"top":"Taxonomic Classification","lvl":"Level 1","q":"Which taxonomic rank comes immediately after phylum when classifying a human?","opts":["Order","Class","Family","Genus"],"ans":1,"exp":"The taxonomic hierarchy is: Domain -> Kingdom -> Phylum -> Class -> Order -> Family -> Genus -> Species. Class follows Phylum (humans belong to Class Mammalia). Rule: Remember the mnemonic: 'Dear King Philip Came Over For Good Soup' (Domain, Kingdom, Phylum, Class, Order, Family, Genus, Species)."},{"id":10,"top":"Digestion in Animals","lvl":"Level 2","q":"A student eats a meal containing rice, vegetables, and fish. After digestion, most nutrient absorption occurs in which organ?","opts":["Stomach","Large intestine","Esophagus","Small intestine"],"ans":3,"exp":"The small intestine (duodenum, jejunum, ileum) absorbs approximately 90% of all digested nutrients through its extensive villi and microvilli. Rule: Villi and microvilli give the small intestine massive surface area dedicated to nutrient absorption."},{"id":11,"top":"Digestion in Animals","lvl":"Level 2","q":"A person has difficulty swallowing food because the muscular tube connecting the mouth to the stomach is not functioning properly. Which organ is affected?","opts":["Esophagus","Small intestine","Large intestine","Pancreas"],"ans":0,"exp":"The esophagus is the muscular tube connecting the pharynx (throat) to the stomach, propelling food down via peristalsis. Rule: The esophagus is the muscular passage connecting the mouth/pharynx directly to the stomach."},{"id":12,"top":"Digestion in Animals","lvl":"Level 2","q":"A person has difficulty digesting lactose, a sugar found in milk. Which symptom may occur after drinking milk?","opts":["Increased bone growth","Improved nutrient absorption","Bloating and diarrhea","Increased saliva production"],"ans":2,"exp":"When lactose is not broken down by lactase in the small intestine, it ferments in the colon, producing gas (bloating) and drawing water into the stool (diarrhea). Rule: Undigested lactose draws water into the colon (osmotic diarrhea) and is fermented by gut bacteria (gas/bloating)."},{"id":13,"top":"Plants Transport System","lvl":"Level 2","q":"A student observes that a plant's leaves droop after the plant has been left without water. Which explanation best accounts for the drooping?","opts":["The leaves have absorbed too much glucose.","The plant cells have lost water and turgor pressure.","The roots have produced excessive minerals.","The phloem has stopped transporting oxygen."],"ans":1,"exp":"Water inside central vacuoles pushes against plant cell walls to generate turgor pressure, keeping plant tissues crisp and upright. Water loss results in flaccid cells and wilting. Rule: Turgor pressure from water in central vacuoles maintains structural support in non-woody plant stems and leaves."},{"id":14,"top":"Plants Transport System","lvl":"Level 2","q":"A gardener removes the outer layer of a plant stem in a narrow ring, damaging the phloem while leaving much of the xylem intact. Which process is most directly affected?","opts":["The upward movement of water","The absorption of sunlight","The exchange of gases","The transport of sugars"],"ans":3,"exp":"Girdling strips away the phloem located in the inner bark, blocking the transport of photosynthetic sugars from leaves down to roots. Rule: Girdling (removing outer bark) damages phloem, directly disrupting the downward transport of sugars."},{"id":15,"top":"Photosynthesis and Respiration","lvl":"Level 2","q":"A plant is placed near a window, while another is kept in a dark cabinet. Both receive sufficient water. After several days, the plant near the window grows more vigorously. Which explanation is most reasonable?","opts":["Light provides energy for photosynthesis.","Light supplies minerals to the roots.","Darkness prevents roots from absorbing water.","Darkness causes plants to stop cellular respiration."],"ans":0,"exp":"Light is the fundamental energy source that excites chlorophyll electrons to synthesize glucose and fuel new vegetative growth. Rule: Light energy drives photosynthesis to synthesize carbohydrates needed for plant growth."},{"id":16,"top":"Heredity","lvl":"Level 2","q":"A student crosses a plant with genotype Bb with another plant that has genotype bb. If B is dominant, what proportion of the offspring is expected to show the dominant trait?","opts":["All offspring","One-fourth","One-half","Three-fourths"],"ans":2,"exp":"Bb x bb cross yields gametes: Bb parent gives 50% B and 50% b; bb parent gives 100% b. Offspring are 50% Bb (dominant) and 50% bb (recessive). Thus, one-half (50%) show the dominant trait. Rule: A testcross between Bb (heterozygous) and bb (homozygous recessive) produces a 1:1 phenotypic ratio (50% dominant, 50% recessive)."},{"id":17,"top":"Heredity","lvl":"Level 2","q":"A plant with red flowers is crossed with a plant with white flowers. All offspring have pink flowers. Which inheritance pattern does this illustrate?","opts":["Complete dominance","Incomplete dominance","Codominance","Sex-linked inheritance"],"ans":1,"exp":"In incomplete dominance, neither allele is completely dominant; the heterozygous phenotype is an intermediate blend (Red + White = Pink). Rule: Incomplete dominance produces an intermediate blended phenotype in heterozygotes (Red + White -> Pink)."},{"id":18,"top":"Taxonomic Classification","lvl":"Level 2","q":"A student examines an organism that has a backbone, hair, and mammary glands. Which class should the organism belong to?","opts":["Amphibia","Reptilia","Aves","Mammalia"],"ans":3,"exp":"Class Mammalia is uniquely characterized by the presence of hair/fur and mammary glands that produce milk to nourish offspring. Rule: Diagnostic characteristics of Mammalia include hair/fur and mammary glands."},{"id":19,"top":"Taxonomic Classification","lvl":"Level 2","q":"A student compares two organisms. One obtains nutrients by decomposing dead organic matter, while the other produces its own food using sunlight. Which kingdoms are most likely represented?","opts":["Fungi and Plantae","Animalia and Fungi","Plantae and Animalia","Archaea and Animalia"],"ans":0,"exp":"Fungi are absorptive heterotrophic decomposers that break down dead organic matter; Plantae are photosynthetic autotrophs that produce food using sunlight. Rule: Fungi = heterotrophic saprophytes (decomposers); Plantae = autotrophs (producers using sunlight)."},{"id":20,"top":"Atomic Models","lvl":"Level 2","q":"A student studies the atomic model in which electrons occupy specific energy levels around the nucleus. Which scientist is most closely associated with this model?","opts":["John Dalton","Ernest Rutherford","Niels Bohr","J. J. Thomson"],"ans":2,"exp":"Niels Bohr proposed the 1913 planetary model where electrons travel in circular orbits with discrete, quantized energy levels around the nucleus. Rule: Niels Bohr introduced discrete, quantized energy levels (shells) for orbiting electrons."},{"id":21,"top":"Digestion in Animals","lvl":"Level 3","q":"A student eats a meal quickly and swallows large pieces of food without chewing them thoroughly. How could this affect digestion?","opts":["It allows nutrients to enter the blood immediately.","It reduces the surface area available for digestive action.","It prevents food from entering the stomach.","It causes the large intestine to digest proteins."],"ans":1,"exp":"Chewing increases surface area. Swallowing large chunks leaves less surface area exposed to digestive enzymes, significantly slowing chemical breakdown. Rule: Mechanical chewing increases total surface area, accelerating chemical enzyme action."},{"id":22,"top":"Digestion in Animals","lvl":"Level 3","q":"A patient has damage to the villi lining the small intestine. Which result is most likely?","opts":["Food will no longer enter the stomach.","Saliva production will stop.","The large intestine will produce digestive enzymes.","The absorption of nutrients will decrease."],"ans":3,"exp":"Villi and microvilli provide the primary surface area for absorbing digested nutrients. Damage directly causes nutrient malabsorption and malnutrition. Rule: Intestinal villi expand surface area for absorption; villous damage directly causes nutrient malabsorption."},{"id":23,"top":"Digestion in Animals","lvl":"Level 3","q":"A person experiences constipation. As fecal material remains in the large intestine for an extended period, what happens?","opts":["More water is absorbed, making the stool harder.","More protein is digested, making the stool softer.","The stomach sends additional acid to the colon.","The small intestine absorbs water from the stool."],"ans":0,"exp":"The large intestine reabsorbs water continuously. When stool passage is delayed, excessive water is extracted, leaving dry, hardened, and difficult-to-pass feces. Rule: Prolonged retention of waste in the colon leads to excessive water reabsorption, producing hardened stool (constipation)."},{"id":24,"top":"Plants Transport System","lvl":"Level 3","q":"A student conducts an experiment using two plants of the same species. One plant is placed in a humid environment, while the other is placed in dry, moving air. Which plant is expected to lose water more rapidly through transpiration?","opts":["The plant in humid air","Both plants at the same rate","The plant in dry, moving air","Neither plant will lose water"],"ans":2,"exp":"Dry air creates a steep water vapor concentration gradient, and wind blows away accumulated humidity around stomata, greatly accelerating transpiration. Rule: Transpiration rate increases in dry, warm, and windy environments due to a steeper vapor pressure gradient."},{"id":25,"top":"Plants Transport System","lvl":"Level 3","q":"A tall tree transports water from its roots to leaves high above the ground. Which properties of water help maintain a continuous column of water inside the xylem?","opts":["Evaporation and condensation","Cohesion and adhesion","Diffusion and osmosis","Fermentation and respiration"],"ans":1,"exp":"Cohesion (hydrogen bonding between water molecules) prevents the water column from breaking, while adhesion (attraction between water molecules and xylem cell walls) counters gravitational pull. Rule: Cohesion (water-to-water) and adhesion (water-to-xylem wall) maintain an unbroken sap column under transpirational pull."},{"id":26,"top":"Heredity","lvl":"Level 3","q":"Two plants have the same genotype, Rr, but are grown under different environmental conditions. One grows poorly because it receives insufficient nutrients. What does this demonstrate?","opts":["Environmental conditions can influence how traits are expressed.","Genotypes always determine the exact appearance of an organism.","Recessive alleles disappear when plants lack nutrients.","Environmental conditions change every allele in the plant."],"ans":0,"exp":"An organism's observable phenotype is the product of its genotype interacting with environmental factors (Phenotype = Genotype + Environment). Rule: Phenotype is determined by the interaction between genotype and environmental conditions."},{"id":27,"top":"Heredity","lvl":"Level 3","q":"A child expresses a recessive genetic condition, although neither parent shows the condition. Assuming simple recessive inheritance, which parental genotypes could explain this result?","opts":["Both parents are homozygous dominant.","One parent is homozygous dominant and the other is homozygous recessive.","Both parents are homozygous recessive.","Both parents are heterozygous carriers."],"ans":3,"exp":"Both parents carry one dominant and one recessive allele (Aa). They do not express the condition, but have a 25% chance of passing both recessive alleles (aa) to produce an affected child. Rule: Two unaffected heterozygous carriers (Aa x Aa) have a 25% probability of producing an affected child (aa)."},{"id":28,"top":"Heredity","lvl":"Level 3","q":"A family uses a pedigree chart to trace a trait across several generations. What can the chart help them identify?","opts":["The exact DNA sequence of each relative","The precise age when each relative will express the trait","Possible patterns of inheritance within the family","The exact number of future children who will inherit the trait"],"ans":2,"exp":"A pedigree visually tracks phenotypes across generations to determine if a trait is autosomal dominant, autosomal recessive, or sex-linked, and calculate carrier risks. Rule: Pedigree charts map phenotypic family trees to determine modes and patterns of genetic inheritance."},{"id":29,"top":"Taxonomic Classification","lvl":"Level 3","q":"An animal has a backbone, fur, and mammary glands. It also has forward-facing eyes and grasping hands with opposable thumbs. Which classification best fits these characteristics?","opts":["Class Mammalia, Order Primates","Class Aves, Order Primates","Class Mammalia, Order Carnivora","Class Reptilia, Order Primates"],"ans":0,"exp":"Vertebrae, fur, and milk glands classify it as Mammalia; forward stereoscopic eyes and grasping hands with opposable thumbs are diagnostic adaptations of Order Primates. Rule: Fur + mammary glands = Mammalia; forward-facing eyes + opposable thumbs = Order Primates."},{"id":30,"top":"Taxonomic Classification","lvl":"Level 3","q":"A student is asked to identify organisms that belong to Order Primates. Which set contains only primates?","opts":["Kangaroo, lemur, and chimpanzee","Gorilla, orangutan, and chimpanzee","Sloth, squirrel, and gorilla","Orangutan, kangaroo, and lemur"],"ans":1,"exp":"Gorillas, orangutans, and chimpanzees are all hominoids belonging to Order Primates. Rule: Primates include prosimians (lemurs), monkeys, apes (chimpanzees, gorillas, orangutans), and humans."},{"id":31,"top":"Photosynthesis and Respiration","lvl":"Level 3","q":"A student places a leaf in sunlight and another leaf in darkness. After testing both leaves with iodine, only the leaf exposed to sunlight turns blue-black. What does this result indicate?","opts":["The leaf in darkness produced more glucose.","Both leaves produced equal amounts of starch.","Sunlight prevented starch from forming.","Starch accumulated in the leaf exposed to sunlight."],"ans":3,"exp":"Iodine solution turns blue-black specifically in the presence of starch. The sunlit leaf performed photosynthesis, producing glucose stored as starch. Rule: Iodine turns blue-black in the presence of starch, confirming that photosynthesis occurred in the light."},{"id":32,"top":"Photosynthesis and Respiration","lvl":"Level 3","q":"During a laboratory activity, a student heats a leaf in alcohol and observes that the alcohol turns green. What is the main reason for this observation?","opts":["Starch dissolves and turns the alcohol green.","Iodine reacts with the leaf's water content.","Chlorophyll dissolves into the alcohol.","Glucose is converted into a green pigment."],"ans":2,"exp":"Chlorophyll is an alcohol-soluble lipid pigment. Boiling in ethanol extracts the chlorophyll into the liquid, turning it green and decolorizing the leaf. Rule: Boiling a leaf in alcohol extracts alcohol-soluble chlorophyll, bleaching the leaf white for the iodine starch test."},{"id":33,"top":"Photosynthesis and Respiration","lvl":"Level 3","q":"A plant is placed in a transparent, sealed container and receives enough sunlight. However, the plant's roots cannot absorb water. Which process will be directly limited?","opts":["The production of glucose during photosynthesis","The release of energy from glucose during respiration","The movement of oxygen into the container","The absorption of sunlight by chlorophyll"],"ans":0,"exp":"Water (H2O) is an essential chemical reactant in the light reactions (photolysis). Without water to provide electrons and protons, photosynthesis and glucose production immediately stop. Rule: Water is a necessary raw reactant for photosynthesis (6CO2 + 6H2O -> C6H12O6 + 6O2)."},{"id":34,"top":"Taxonomic Classification","lvl":"Level 4","q":"A student claims that the six-kingdom system and the three-domain system are identical because both are used to classify living organisms. Which response best evaluates the claim?","opts":["The claim is correct because both systems use exactly the same groups.","The claim is incorrect because the systems organize organisms at different taxonomic levels.","The claim is correct because both systems classify organisms only by appearance.","The claim is incorrect because the three-domain system does not classify microorganisms."],"ans":1,"exp":"Domain is a broader, higher taxonomic rank than Kingdom. The three-domain system classifies life based on cellular/molecular rRNA genetics, grouping the traditional kingdoms inside the three domains. Rule: The Three-Domain System organizes life at a higher taxonomic rank than the Six-Kingdom System based on rRNA phylogeny."},{"id":35,"top":"Taxonomic Classification","lvl":"Level 4","q":"A student argues that an animal with a larger brain must be more intelligent than an animal with a smaller brain. Which evidence would best challenge this claim?","opts":["All animals have brains of the same size.","Brain size is unrelated to every behavior.","Intelligence can be influenced by brain organization and other factors, not just size.","Animals with smaller brains cannot learn or solve problems."],"ans":2,"exp":"Cognitive ability depends heavily on neuronal density, cortical folding, synaptic connectivity, and brain-to-body mass ratio (encephalization quotient), rather than absolute brain mass alone. Rule: Intelligence correlates with neural density, structural complexity, and encephalization quotient, not absolute brain volume."},{"id":36,"top":"Photosynthesis and Respiration","lvl":"Level 4","q":"A community removes a large area of vegetation. Some residents believe this will not affect the ecosystem because animals can obtain energy by eating other organisms. Which explanation best addresses the issue?","opts":["Animals can replace all the energy originally captured by plants.","Cellular respiration allows animals to produce their own food.","Removing plants increases the amount of sunlight available to animals.","Reduced photosynthesis can decrease the energy entering the food web."],"ans":3,"exp":"Plants are primary producers that convert solar energy into organic chemical energy. Removing them eliminates the foundational energy source for the entire food web, collapsing herbivores and the carnivores that feed on them. Rule: Photosynthesis by primary producers captures the solar energy that sustains all higher trophic levels in a food web."},{"id":37,"top":"Photosynthesis and Respiration","lvl":"Level 4","q":"A student observes that plants release oxygen during photosynthesis, while animals use oxygen during cellular respiration. Which statement best explains how these processes are connected?","opts":["The products of one process can serve as reactants in the other.","Both processes occur only in plant cells.","Photosynthesis and respiration both produce glucose.","Cellular respiration supplies sunlight for photosynthesis."],"ans":0,"exp":"Photosynthesis yields glucose and O2, which are the essential reactants for aerobic respiration. Respiration yields CO2 and H2O, which are the essential reactants for photosynthesis. Rule: Photosynthesis and cellular respiration form a cyclical biological loop: the products of one are the reactants of the other."},{"id":38,"top":"Atomic Models","lvl":"Level 4","q":"A student compares the atomic models of Dalton, Thomson, Rutherford, and Bohr. Why did the models change over time?","opts":["Scientists changed the models to make them easier to draw.","Each new model was based only on the opinions of scientists.","Experimental evidence revealed limitations in earlier models.","Earlier scientists had no evidence to support their ideas."],"ans":2,"exp":"As technological methods advanced (cathode rays, alpha scattering, emission spectroscopy), new experimental observations contradicted older models, requiring more refined theories. Rule: Scientific models are dynamic and are updated or replaced whenever new experimental evidence contradicts existing models."},{"id":39,"top":"Atomic Models","lvl":"Level 4","q":"Rutherford directed alpha particles at a thin sheet of gold foil. Most passed through, but a small number were deflected at large angles. Which conclusion best explains both observations?","opts":["The atom is a solid sphere with evenly distributed matter.","Most of the atom is empty space, with a small, dense, positively charged nucleus.","Electrons and protons are spread evenly throughout the atom.","The atom's positive charge is distributed throughout its entire volume."],"ans":1,"exp":"Most alpha particles passed undeflected because atoms are mostly empty space; the few strongly deflected encountered a tiny, dense, positively charged nucleus. Rule: Rutherford's gold foil experiment proved atoms are mostly empty space with a dense, positively charged central nucleus."},{"id":40,"top":"Atomic Models","lvl":"Level 4","q":"A student uses Dalton's atomic model to explain why atoms of different elements have different properties. What important limitation must the student recognize?","opts":["Dalton's model explains the probability of electron locations.","Dalton's model describes the nucleus in detail.","Dalton's model explains the arrangement of electrons in energy levels.","Dalton's model does not account for subatomic particles."],"ans":3,"exp":"Dalton viewed the atom as an indivisible solid sphere. He did not know about protons, neutrons, or electrons, which are the subatomic particles that actually govern chemical behavior and elemental properties. Rule: Dalton's solid sphere model failed to account for subatomic particles (protons, neutrons, electrons)."},{"id":41,"top":"Atomic Models","lvl":"Level 4","q":"A student draws an atom with electrons following exact circular paths around the nucleus. The teacher asks the student to use the quantum mechanical model instead. What should change in the drawing?","opts":["Electrons should be shown as regions where they are likely to be found.","Electrons should be placed inside the nucleus.","Electrons should be removed from the atom.","Electrons should be shown as moving in one fixed circular path."],"ans":0,"exp":"In the quantum mechanical model, electrons do not travel in predictable circular orbits; instead, orbitals represent 3D probability clouds where finding an electron is most probable. Rule: The quantum mechanical model replaces fixed circular orbits with 3D electron probability clouds (orbitals)."},{"id":42,"top":"Atomic Models","lvl":"Level 4","q":"A student claims that Democritus's ideas about atoms have no value because modern scientists use more advanced atomic models. Which evaluation is most reasonable?","opts":["The claim is correct because scientific ideas never build on earlier explanations.","The claim is correct because Democritus's ideas were identical to modern atomic theory.","The claim is incorrect because early ideas helped establish questions and concepts that later scientists developed.","The claim is incorrect because Democritus's atomic model is still fully accepted today."],"ans":2,"exp":"Democritus proposed the fundamental philosophical concept of the 'atom' (indivisible matter). This conceptual foundation guided subsequent empirical inquiries by Dalton and later physicists. Rule: Early philosophical concepts of the atom catalyzed scientific curiosity and provided the conceptual foundation for modern atomic theory."},{"id":43,"top":"Atomic Models","lvl":"Level 4","q":"A student compares two explanations of electron behavior. One describes electrons as following precise paths, while the other describes the probability of finding electrons in certain regions. Why is the second explanation consistent with the quantum mechanical model?","opts":["It assumes electrons remain motionless around the nucleus.","It represents electron locations in terms of probability rather than definite paths.","It assumes electrons are distributed evenly throughout the nucleus.","It describes electrons as following the same paths as planets."],"ans":1,"exp":"According to the Heisenberg Uncertainty Principle and wave mechanics, an electron's exact position and momentum cannot be simultaneously measured; hence, electron clouds represent probability distributions. Rule: The Heisenberg Uncertainty Principle dictates that electron position is described probabilistically via wave orbitals."}];
+
+    let curView = 'home';
+    let pool = [], mastered = [], attempts = 0, curQ = null, answered = false;
+    let p1 = 'Dd', p2 = 'Dd', streak = 0, pAttempts = 0, curCell = null;
+    let audioOn = true, aCtx = null;
+
+    function sound(freq, dur=0.15, type='sine') {
+      if(!audioOn) return;
+      try {
+        if(!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if(aCtx.state === 'suspended') aCtx.resume();
+        const o = aCtx.createOscillator(), g = aCtx.createGain();
+        o.type = type; o.frequency.value = freq;
+        g.gain.setValueAtTime(0.12, aCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, aCtx.currentTime + dur);
+        o.connect(g); g.connect(aCtx.destination);
+        o.start(); o.stop(aCtx.currentTime + dur);
+      } catch(e){}
+    }
+    function toggleSound() {
+      audioOn = !audioOn;
+      document.getElementById('sound-btn').textContent = audioOn ? '🔊' : '🔇';
+    }
+
+    function goView(v) {
+      curView = v;
+      ['v-home','v-mcq','v-cleared','v-punnett'].forEach(id => document.getElementById(id).classList.add('hidden'));
+      ['nav-home','nav-mcq','nav-punnett'].forEach(id => document.getElementById(id).className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:bg-slate-100');
+      
+      if(v === 'home') {
+        document.getElementById('v-home').classList.remove('hidden');
+        document.getElementById('nav-home').className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-emerald-700 bg-emerald-50';
+      } else if(v === 'mcq') {
+        if(pool.length === 0) document.getElementById('v-cleared').classList.remove('hidden');
+        else { document.getElementById('v-mcq').classList.remove('hidden'); renderQ(); }
+        document.getElementById('nav-mcq').className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-emerald-700 bg-emerald-50';
+      } else if(v === 'punnett') {
+        document.getElementById('v-punnett').classList.remove('hidden');
+        document.getElementById('nav-punnett').className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-teal-700 bg-teal-50';
+        updateGivenParentsUI();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function initMCQ() {
+      pool = [...QS].sort(() => Math.random() - 0.5);
+      mastered = []; attempts = 0; updateDash();
+    }
+    function restartMCQ() { initMCQ(); goView('mcq'); }
+
+    function updateDash() {
+      document.getElementById('stat-mastered').textContent = mastered.length;
+      document.getElementById('stat-pool').textContent = pool.length;
+      document.getElementById('stat-attempts').textContent = attempts;
+      document.getElementById('nav-pool-count').textContent = pool.length;
+      const pct = Math.round((mastered.length / QS.length) * 100);
+      document.getElementById('mcq-bar').style.width = pct + '%';
+    }
+
+    function renderQ() {
+      if(pool.length === 0) { goView('mcq'); return; }
+      answered = false;
+      curQ = pool[0];
+      document.getElementById('mcq-topic').textContent = curQ.top;
+      document.getElementById('mcq-lvl').textContent = curQ.lvl;
+      document.getElementById('mcq-num').textContent = `Question #${curQ.id} of 43`;
+      document.getElementById('mcq-q-text').textContent = curQ.q;
+      document.getElementById('mcq-feedback').classList.add('hidden');
+
+      // Randomize options
+      const order = [0,1,2,3].sort(() => Math.random() - 0.5);
+      const letters = ['A','B','C','D'];
+      const c = document.getElementById('mcq-options');
+      c.innerHTML = '';
+      order.forEach((origIdx, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'opt-btn w-full text-left p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white transition flex items-start space-x-3 text-xs sm:text-sm font-medium';
+        b.innerHTML = `<span class="w-6 h-6 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">${letters[i]}</span><span class="pt-0.5">${curQ.opts[origIdx]}</span>`;
+        b.onclick = () => answerMCQ(origIdx, b);
+        c.appendChild(b);
+      });
+      updateDash();
+    }
+
+    function answerMCQ(chosenIdx, btn) {
+      if(answered) return;
+      answered = true; attempts++;
+      const isCorrect = chosenIdx === curQ.ans;
+      document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+
+      const fb = document.getElementById('mcq-feedback');
+      const fbt = document.getElementById('mcq-fb-title');
+      const fbi = document.getElementById('mcq-fb-icon');
+      const fbx = document.getElementById('mcq-fb-text');
+      const nxt = document.getElementById('mcq-next-txt');
+
+      if(isCorrect) {
+        sound(600, 0.1); setTimeout(() => sound(800, 0.2), 100);
+        btn.classList.add('border-emerald-500','bg-emerald-50','text-emerald-950');
+        fb.className = 'p-4 rounded-2xl border border-emerald-300 bg-emerald-50/70 space-y-2';
+        fbi.textContent = '🎉';
+        fbt.className = 'font-bold text-emerald-900';
+        fbt.textContent = 'Correct! Mastered.';
+        fbx.innerHTML = `<strong>Explanation:</strong> ${curQ.exp}`;
+        nxt.textContent = pool.length === 1 ? 'Complete 🏆' : 'Next Question';
+      } else {
+        sound(250, 0.25, 'sawtooth');
+        btn.classList.add('border-rose-400','bg-rose-50','text-rose-950');
+        fb.className = 'p-4 rounded-2xl border border-amber-300 bg-amber-50/70 space-y-2';
+        fbi.textContent = '💡';
+        fbt.className = 'font-bold text-amber-900';
+        fbt.textContent = 'Not quite! Added back to pool for mastery.';
+        fbx.innerHTML = `You chose: <em>${curQ.opts[chosenIdx]}</em>.<br><strong>Correct Answer (${curQ.opts[curQ.ans]}):</strong> ${curQ.exp}`;
+        nxt.textContent = 'Keep Practicing';
+      }
+      fb.classList.remove('hidden');
+      updateDash();
+    }
+
+    function nextQuestion() {
+      if(!answered) return;
+      const q = pool.shift();
+      const passed = document.getElementById('mcq-fb-title').textContent.includes('Correct');
+      if(passed) mastered.push(q);
+      else pool.push(q);
+
+      if(pool.length === 0) {
+        sound(440, 0.15); setTimeout(() => sound(660, 0.15), 120); setTimeout(() => sound(880, 0.3), 240);
+        document.getElementById('v-mcq').classList.add('hidden');
+        document.getElementById('v-cleared').classList.remove('hidden');
+      } else {
+        renderQ();
+      }
+      updateDash();
+    }
+
+    // --- PUNNETT ENGINE WITH GIVEN PARENT GENOTYPES ---
+    function getPhenoName(geno) {
+      return geno === 'dd' ? 'Light coat' : 'Dark coat';
+    }
+
+    function updateGivenParentsUI() {
+      const p1Desc = `${p1} (${getPhenoName(p1)})`;
+      const p2Desc = `${p2} (${getPhenoName(p2)})`;
+
+      // Given Challenge Card
+      document.getElementById('given-parent1-text').textContent = `Parent 1: ${p1Desc}`;
+      document.getElementById('given-parent2-text').textContent = `Parent 2: ${p2Desc}`;
+      document.getElementById('given-cross-desc').innerHTML = `A carabao with given genotype <strong>${p1}</strong> (${getPhenoName(p1)}) is crossed with a carabao with given genotype <strong>${p2}</strong> (${getPhenoName(p2)}). Fill the square to predict their offspring.`;
+
+      // Labels directly on the Punnett Square Grid
+      document.getElementById('grid-p1-tag').textContent = `${p1} (${p1==='dd'?'Light':'Dark'})`;
+      document.getElementById('grid-p2-tag').textContent = `${p2} (${p2==='dd'?'Light':'Dark'})`;
+      document.getElementById('grid-corner-cross').textContent = `${p1} × ${p2}`;
+    }
+
+    function setParent(pNum, val) {
+      if(pNum === 1) {
+        p1 = val;
+        ['DD','Dd','dd'].forEach(v => document.getElementById('p1-'+v).className = v===val ? 'p-1.5 border-2 border-teal-600 bg-teal-50 text-teal-900 rounded-lg font-bold' : 'p-1.5 border rounded-lg font-bold');
+        document.getElementById('gt1').value = ''; document.getElementById('gt2').value = '';
+      } else {
+        p2 = val;
+        ['DD','Dd','dd'].forEach(v => document.getElementById('p2-'+v).className = v===val ? 'p-1.5 border-2 border-teal-600 bg-teal-50 text-teal-900 rounded-lg font-bold' : 'p-1.5 border rounded-lg font-bold');
+        document.getElementById('gl1').value = ''; document.getElementById('gl2').value = '';
+      }
+      ['c00','c01','c10','c11'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('p-feedback').classList.add('hidden');
+      updateGivenParentsUI();
+    }
+
+    function cellEdit(cell) {
+      if(cell==='gt1') { document.getElementById('c00').value=''; document.getElementById('c10').value=''; }
+      if(cell==='gt2') { document.getElementById('c01').value=''; document.getElementById('c11').value=''; }
+      if(cell==='gl1') { document.getElementById('c00').value=''; document.getElementById('c01').value=''; }
+      if(cell==='gl2') { document.getElementById('c10').value=''; document.getElementById('c11').value=''; }
+      document.getElementById('p-feedback').classList.add('hidden');
+    }
+
+    function tapAllele(a) {
+      if(curCell && (curCell.value.length < (curCell.maxLength || 2))) {
+        curCell.value += a;
+        cellEdit(curCell.id);
+      }
+    }
+    function tapClear() { if(curCell) { curCell.value = ''; cellEdit(curCell.id); } }
+
+    function resetPunnettGrid() {
+      ['gt1','gt2','gl1','gl2','c00','c01','c10','c11','in-geno','in-pheno','in-prob'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('p-feedback').classList.add('hidden');
+    }
+
+    function newCross() {
+      resetPunnettGrid();
+      const allCombos = [
+        ['Dd','Dd'], // heterozygous x heterozygous
+        ['Dd','dd'], // heterozygous x homozygous recessive
+        ['DD','dd'], // homozygous dominant x homozygous recessive
+        ['DD','Dd'], // homozygous dominant x heterozygous
+        ['DD','DD'], // homozygous dominant x homozygous dominant
+        ['dd','dd']  // homozygous recessive x homozygous recessive
+      ];
+      // Pick a random pairing different from current
+      let pick = allCombos[Math.floor(Math.random()*allCombos.length)];
+      if (pick[0] === p1 && pick[1] === p2) {
+        pick = allCombos[(allCombos.indexOf(pick) + 1) % allCombos.length];
+      }
+      setParent(1, pick[0]);
+      setParent(2, pick[1]);
+    }
+
+    function normG(s) {
+      const c = s.replace(/[^Dd]/g, '');
+      return { D: (c.match(/D/g)||[]).length, d: (c.match(/d/g)||[]).length };
+    }
+
+    function checkPunnett() {
+      pAttempts++;
+      document.getElementById('plab-attempts').textContent = pAttempts;
+
+      const gt1 = document.getElementById('gt1').value.trim();
+      const gt2 = document.getElementById('gt2').value.trim();
+      const gl1 = document.getElementById('gl1').value.trim();
+      const gl2 = document.getElementById('gl2').value.trim();
+      const c00 = document.getElementById('c00').value.trim();
+      const c01 = document.getElementById('c01').value.trim();
+      const c10 = document.getElementById('c10').value.trim();
+      const c11 = document.getElementById('c11').value.trim();
+      const inG = document.getElementById('in-geno').value.trim();
+      const inP = document.getElementById('in-pheno').value.trim();
+      const inPr = document.getElementById('in-prob').value.trim();
+
+      // Programmatic computation based on given parent genotypes
+      const p1A = p1.split(''), p2A = p2.split('');
+      const expectedCells = [p2A[0]+p1A[0], p2A[0]+p1A[1], p2A[1]+p1A[0], p2A[1]+p1A[1]].map(s => {
+        const n = normG(s); return n.D===2?'DD':(n.d===2?'dd':'Dd');
+      });
+      const cDD = expectedCells.filter(x => x==='DD').length;
+      const cDd = expectedCells.filter(x => x==='Dd').length;
+      const cdd = expectedCells.filter(x => x==='dd').length;
+      const cDark = cDD + cDd, cLight = cdd;
+      const pctDark = Math.round((cDark/4)*100), pctLight = Math.round((cLight/4)*100);
+
+      // 1. Gametes
+      let passG = true, msgG = "";
+      if([gt1,gt2,gl1,gl2].some(v => v.length > 1)) {
+        passG = false; msgG = "Misconception: Each gamete box must hold only 1 allele (Law of Segregation). Do not put both parent alleles in one box!";
+      } else if(!gt1 || !gt2 || !gl1 || !gl2) {
+        passG = false; msgG = "Please fill all 4 gamete boxes along the top and left edges based on the given parents.";
+      } else {
+        const u1 = [gt1,gt2].sort().join(''), e1 = [...p1A].sort().join('');
+        const u2 = [gl1,gl2].sort().join(''), e2 = [...p2A].sort().join('');
+        if(u1 !== e1 || u2 !== e2) {
+          passG = false; msgG = `Allele mismatch with given parents: Given Parent 1 is ${p1} (segregates into ${p1A[0]} and ${p1A[1]}); Given Parent 2 is ${p2} (segregates into ${p2A[0]} and ${p2A[1]}).`;
+        } else {
+          msgG = `Law of Segregation: Given Parent 1 (${p1}) and Parent 2 (${p2}) alleles properly segregated into haploid gametes.`;
+        }
+      }
+
+      // 2. Offspring Grid
+      let passC = true, msgC = "";
+      const topG = [gt1||p1A[0], gt2||p1A[1]];
+      const leftG = [gl1||p2A[0], gl2||p2A[1]];
+      const userGrid = [[c00,c01],[c10,c11]];
+      for(let r=0; r<2; r++) {
+        for(let c=0; c<2; c++) {
+          const un = normG(userGrid[r][c]);
+          const en = normG(leftG[r] + topG[c]);
+          if(!userGrid[r][c] || un.D !== en.D || un.d !== en.d) passC = false;
+        }
+      }
+      msgC = passC ? "Fertilization Rule: All 4 offspring cells correctly combine top and left gametes." : "Check your grid cells: combine the corresponding top and left gametes for each box.";
+
+      // 3. Genotype Ratio
+      let passGn = false, msgGn = "";
+      const gnNums = (inG.match(/\d+/g)||[]).map(Number);
+      if(p1==='Dd' && p2==='Dd' && (inG.includes('2:1:1') || gnNums.join(':')==='2:1:1')) {
+        msgGn = "Misconception: 'Dd' and 'dD' are the same heterozygous genotype. Count them together as 2 Dd (ratio 1:2:1, not 2:1:1).";
+      } else if(p1==='Dd' && p2==='Dd' && inG.includes('3:1')) {
+        msgGn = "Misconception: 3:1 is the phenotypic ratio. Genotype refers to allele counts: 1 DD : 2 Dd : 1 dd.";
+      } else {
+        if(cDD===1 && cDd===2 && cdd===1 && gnNums.join(':')==='1:2:1') passGn = true;
+        else if(cDark===4 && cLight===0 && ['4','4:0','1:0','1','100'].includes(gnNums.join(':'))) passGn = true;
+        else if(cDark===0 && cLight===4 && ['4','0:4','1','100'].includes(gnNums.join(':'))) passGn = true;
+        else if(cDD===2 && cDd===2 && ['1:1','2:2'].includes(gnNums.join(':'))) passGn = true;
+        else if(cDd===2 && cdd===2 && ['1:1','2:2'].includes(gnNums.join(':'))) passGn = true;
+        msgGn = passGn ? "Genotypic ratio correctly expresses offspring allele pairs." : `Genotypic count is: ${cDD} DD : ${cDd} Dd : ${cdd} dd.`;
+      }
+
+      // 4. Phenotype Ratio
+      let passPh = false, msgPh = "";
+      const phNums = (inP.match(/\d+/g)||[]).map(Number);
+      if(p1==='Dd' && p2==='Dd' && inP.includes('1:2:1')) {
+        msgPh = "Misconception: 1:2:1 is the genotypic ratio. Phenotype is coat color: 3 Dark : 1 Light.";
+      } else if(cDark===3 && cLight===1 && (phNums.join(':')==='3:1' || inP.includes('3:1'))) passPh = true;
+      else if(cDark===2 && cLight===2 && ['1:1','2:2'].includes(phNums.join(':'))) passPh = true;
+      else if(cDark===4 && ['4','4:0','1:0','1','100'].includes(phNums.join(':'))) passPh = true;
+      else if(cLight===4 && ['4','0:4','1','100'].includes(phNums.join(':'))) passPh = true;
+      msgPh = passPh ? "Phenotypic ratio reflects dominant vs. recessive physical traits." : `Phenotypic count is: ${cDark} Dark : ${cLight} Light.`;
+
+      // 5. Probability
+      let passPr = false, msgPr = "";
+      const prNums = (inPr.match(/\d+/g)||[]).map(Number);
+      if(pctDark !== pctLight && (prNums.join(':') === `${pctLight}:${pctDark}` || inPr.includes(`${pctLight}% dark`))) {
+        msgPr = `Misconception: Inverted probability! Dominant Dark is ${pctDark}% (${cDark} in 4), not ${pctLight}%.`;
+      } else {
+        if(cDark===3 && (prNums.includes(75) || inPr.includes('75') || inPr.includes('3 in 4') || inPr.includes('3/4'))) passPr = true;
+        else if(cDark===2 && (prNums.includes(50) || inPr.includes('50') || inPr.includes('2 in 4') || inPr.includes('1/2'))) passPr = true;
+        else if((cDark===4||cLight===4) && (prNums.includes(100) || inPr.includes('100') || inPr.includes('all'))) passPr = true;
+        msgPr = passPr ? "Probability correctly calculated." : `Expected: ${cDark} in 4 Dark (${pctDark}%) and ${cLight} in 4 Light (${pctLight}%).`;
+      }
+
+      // Display results
+      const allPassed = passG && passC && passGn && passPh && passPr;
+      if(allPassed) { streak++; sound(523, 0.1); setTimeout(()=>sound(659,0.1),100); setTimeout(()=>sound(783,0.25),200); }
+      else { streak = 0; sound(220, 0.25, 'sawtooth'); }
+
+      document.getElementById('plab-streak').textContent = streak;
+      document.getElementById('nav-streak').textContent = streak + ' 🔥';
+
+      const fb = document.getElementById('p-feedback');
+      fb.classList.remove('hidden');
+      const passedCount = [passG,passC,passGn,passPh,passPr].filter(Boolean).length;
+      document.getElementById('p-score-pill').textContent = `${passedCount}/5 Passed`;
+      document.getElementById('p-score-pill').className = `text-xs font-bold px-2.5 py-1 rounded-full ${allPassed?'bg-emerald-100 text-emerald-800':'bg-amber-100 text-amber-800'}`;
+      document.getElementById('p-badge-icon').textContent = allPassed ? '🏆' : '💡';
+      document.getElementById('p-badge-title').textContent = allPassed ? 'All 5 Parts Correct!' : 'Check Component Diagnostics';
+
+      function setBadge(bId, sId, ok) {
+        document.getElementById(bId).className = ok ? 'p-2 border border-emerald-300 bg-emerald-50 rounded-xl' : 'p-2 border border-rose-300 bg-rose-50 rounded-xl';
+        document.getElementById(sId).textContent = ok ? '✓ Pass' : '✗ Review';
+        document.getElementById(sId).className = ok ? 'text-emerald-700 font-bold' : 'text-rose-700 font-bold';
+      }
+      setBadge('badge-g','st-g',passG);
+      setBadge('badge-c','st-c',passC);
+      setBadge('badge-gn','st-gn',passGn);
+      setBadge('badge-ph','st-ph',passPh);
+      setBadge('badge-pr','st-pr',passPr);
+
+      document.getElementById('p-details').innerHTML = `
+        <div class="p-2.5 rounded-lg border ${passG?'border-emerald-200 bg-emerald-50/50':'border-rose-200 bg-rose-50/50'}"><strong>1. Gametes:</strong> ${msgG}</div>
+        <div class="p-2.5 rounded-lg border ${passC?'border-emerald-200 bg-emerald-50/50':'border-rose-200 bg-rose-50/50'}"><strong>2. Offspring:</strong> ${msgC}</div>
+        <div class="p-2.5 rounded-lg border ${passGn?'border-emerald-200 bg-emerald-50/50':'border-rose-200 bg-rose-50/50'}"><strong>3. Genotypic Ratio:</strong> ${msgGn}</div>
+        <div class="p-2.5 rounded-lg border ${passPh?'border-emerald-200 bg-emerald-50/50':'border-rose-200 bg-rose-50/50'}"><strong>4. Phenotypic Ratio:</strong> ${msgPh}</div>
+        <div class="p-2.5 rounded-lg border ${passPr?'border-emerald-200 bg-emerald-50/50':'border-rose-200 bg-rose-50/50'}"><strong>5. Probability:</strong> ${msgPr}</div>
+      `;
+
+      document.getElementById('ref-parents').textContent = `${p1} (${p1==='dd'?'Light':'Dark'}) × ${p2} (${p2==='dd'?'Light':'Dark'})`;
+      document.getElementById('ref-geno').textContent = `${cDD} DD : ${cDd} Dd : ${cdd} dd`;
+      document.getElementById('ref-pheno').textContent = `${cDark} Dark : ${cLight} Light (${cDark}:${cLight})`;
+      document.getElementById('ref-prob').textContent = `${pctDark}% Dark / ${pctLight}% Light`;
+
+      fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initMCQ();
+      setParent(1,'Dd');
+      setParent(2,'Dd');
+      updateGivenParentsUI();
+    });
+  </script>
+</body>
+</html>
